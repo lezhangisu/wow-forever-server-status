@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b111b">
+  <meta name="description" content="WoW Forever 测试服的服务器状态概览。">
+  <title>WoW Forever 测试服 · WoW Server Status</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="/" id="home-link" aria-label="WoW Forever 测试服状态首页">
+        <span class="brand-mark" aria-hidden="true"><span></span></span>
+        <span class="brand-copy"><strong>WoW Forever</strong><small>WoW Server Status</small></span>
+      </a>
+      <div class="header-right"><button class="language-toggle" id="language-toggle" type="button" aria-label="Switch to English">EN</button><span class="header-dot" aria-hidden="true"></span><span data-i18n="navStatus">服务器状态</span><span class="header-divider"></span><span id="header-time">--:--:--</span></div>
+    </header>
+
+    <main>
+      <div class="eyebrow"><span class="eyebrow-line"></span>WOW SERVER STATUS <span class="eyebrow-line"></span></div>
+      <h1>WoW Forever<span data-i18n="testRealm">测试服</span></h1>
+      <p class="intro" data-i18n="intro">查看测试服务器的当前连接状态。</p>
+
+      <section class="status-card" id="status-card" data-level="checking" aria-labelledby="status-title">
+        <div class="card-grid" aria-hidden="true"></div>
+        <div class="card-topline"><span><span class="live-pulse" aria-hidden="true"></span> <span data-i18n="currentStatus">当前状态</span></span><span>WoW Server Status</span></div>
+        <div class="status-main">
+          <div class="status-orb" aria-hidden="true">
+            <div class="orb-ring orb-ring-one"></div>
+            <div class="orb-ring orb-ring-two"></div>
+            <div class="orb-core"><span class="orb-symbol">⌁</span></div>
+          </div>
+          <div class="status-copy">
+            <div class="status-overline"><span data-i18n="connectionStatus">当前连接状态</span><span class="status-overline-rule"></span></div>
+            <h2 id="status-title" aria-live="polite">正在检测</h2>
+            <p id="status-detail">正在连接测试服务器，请稍候…</p>
+            <div class="status-meta"><span class="meta-icon">◷</span> <span data-i18n="lastChecked">最近检测</span> <strong id="checked-at">--</strong></div>
+          </div>
+        </div>
+        <div class="progress-track" id="progress-track" aria-label="服务状态概览">
+          <div class="progress-item" id="stage-auth"><span class="progress-number">01</span><span class="progress-label" data-i18n="auth">登录验证</span><span class="progress-state">待检测</span></div>
+          <div class="progress-item" id="stage-characters"><span class="progress-number">02</span><span class="progress-label" data-i18n="characters">角色信息</span><span class="progress-state">待检测</span></div>
+          <div class="progress-item" id="stage-world"><span class="progress-number">03</span><span class="progress-label" data-i18n="world">游戏世界</span><span class="progress-state">待检测</span></div>
+        </div>
+      </section>
+
+      <section class="history-section" aria-labelledby="history-title">
+        <div class="history-heading">
+          <div><span class="section-kicker">STATUS HISTORY</span><h2 id="history-title" data-i18n="historyTitle">服务器状态历史</h2><p data-i18n="historySubtitle">悬停时间轴查看时间与状态</p></div>
+          <div class="history-ranges" id="history-ranges" role="group" aria-label="时间范围">
+            <button type="button" data-range="2h" data-i18n="range2h" aria-pressed="true">2 小时</button>
+            <button type="button" data-range="24h" data-i18n="range24h" aria-pressed="false">24 小时</button>
+            <button type="button" data-range="30d" data-i18n="range30d" aria-pressed="false">30 天</button>
+          </div>
+        </div>
+        <div class="history-chart">
+          <div class="history-track" id="history-track" role="slider" tabindex="0" aria-label="服务器状态历史时间轴" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100">
+            <div class="history-segments" id="history-segments" aria-hidden="true"></div>
+            <div class="history-cursor" id="history-cursor" hidden></div>
+            <div class="history-tooltip" id="history-tooltip" hidden><strong id="history-tooltip-status">--</strong><span id="history-tooltip-time">--</span></div>
+          </div>
+          <div class="history-axis" id="history-axis" aria-hidden="true"></div>
+        </div>
+        <div class="history-footer">
+          <div class="history-legend"><span><i class="online"></i><span data-i18n="historyOnline">在线</span></span><span><i class="limited"></i><span data-i18n="historyLimited">受限</span></span><span><i class="offline"></i><span data-i18n="historyOffline">下线</span></span><span><i class="unknown"></i><span data-i18n="historyUnknown">无记录</span></span></div>
+          <p id="history-note" data-i18n="historyNote">历史记录从启用后开始积累，未记录的时段显示为灰色。</p>
+        </div>
+      </section>
+
+      <section class="details-section" aria-labelledby="details-title">
+        <div class="section-heading"><div><span class="section-kicker">SERVICE OVERVIEW</span><h2 id="details-title" data-i18n="overview">服务状态概览</h2></div><div class="refresh-info"><span class="refresh-copy"><span class="refresh-icon" aria-hidden="true">↻</span><span data-i18n="refreshEvery">页面每 60 秒更新</span></span><button class="refresh-button" id="refresh-button" type="button" data-i18n="manualRefresh">手动刷新</button><span class="next-refresh"><span data-i18n="nextRefresh">下次更新</span> <span id="countdown">--</span><span data-i18n="secondsSuffix">秒</span></span></div></div>
+        <div class="endpoint-grid">
+          <article class="endpoint-card" id="auth-card">
+            <div class="endpoint-index">01 <span>/ AUTHENTICATION</span></div>
+            <div class="endpoint-title-row"><div class="endpoint-icon">⌘</div><div><h3 data-i18n="auth">登录验证</h3><p data-i18n="authDescription">账号登录连接状态</p></div><span class="endpoint-badge" id="auth-badge">检测中</span></div>
+          </article>
+          <article class="endpoint-card" id="characters-card">
+            <div class="endpoint-index">02 <span>/ CHARACTER DATA</span></div>
+            <div class="endpoint-title-row"><div class="endpoint-icon">◇</div><div><h3 data-i18n="characters">角色信息</h3><p data-i18n="charactersDescription">角色数据连接状态</p></div><span class="endpoint-badge" id="characters-badge">检测中</span></div>
+          </article>
+          <article class="endpoint-card" id="world-card">
+            <div class="endpoint-index">03 <span>/ GAME WORLD</span></div>
+            <div class="endpoint-title-row"><div class="endpoint-icon">✦</div><div><h3 data-i18n="world">游戏世界</h3><p data-i18n="worldDescription">进入游戏的连接状态</p></div><span class="endpoint-badge" id="world-badge">检测中</span></div>
+          </article>
+        </div>
+      </section>
+
+      <div class="footnote"><span class="footnote-mark">i</span><p data-i18n="footnote">状态根据网络连接情况估算，可能与实际游戏体验存在差异。</p></div>
+    </main>
+    <footer><span>WoW Forever <span class="footer-muted">/ WoW Server Status</span></span><span data-i18n="footerRefresh">页面每 60 秒更新</span></footer>
+  </div>
+</body>
+</html>
